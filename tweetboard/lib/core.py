@@ -4,20 +4,21 @@ from BeautifulSoup import BeautifulSoup
 def image_extracter(url):
     assert url, 'missing args'
     #twitpic, instagr.am, flic.kr, yfrog.com
+    tag = 'img'
     if 'twitpic' in url:
-	tag = 'img'
 	attrs_dict = {'class' : 'photo'}
     elif 'instagr.am' in url:
-	tag = 'img'
 	attrs_dict = {'class' : 'photo'}
     elif 'flic.kr' in url:
 	if 'lightbox' not in url:
 	    url = '%s/%s' %(url, 'lightbox')
-	tag = 'img'
 	attrs_dict = {'alt' : 'photo'}
     elif 'yfrog.com' in url:
-	tag = 'img'
 	attrs_dict = {'id' : 'main_image'}
+    elif 'tweetphoto' in url:
+	attrs_dict = {'id' : 'photo'}
+    elif 'twitgoo' in url:
+	attrs_dict = {'id' : 'fullsize'}
     else:
 	return None
     r = requests.get(url = url)
