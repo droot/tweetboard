@@ -13,4 +13,4 @@ class MainController(BaseController):
         # Return a rendered template
         #return render('/main.mako')
         # or, return a response
-        return 'Hello World'
+	return "board.html"
