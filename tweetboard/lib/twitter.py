@@ -9,33 +9,17 @@ from core import image_extracter
 from mongoengine import *
 from datetime import datetime
 
-class User(Document):
-    """Collection to represent the users of the game
-    """
-    screen_name = StringField(max_length = 100)
-    tw_id = StringField()
-    name = StringField()
-    description = StringField()
-    location = StringField()
-    next_twc = IntField(default = 0)
-    followers_count = IntField(default = 0)
-    tweet_count = IntField(default = 0)
-    created_at = DateTimeField(default = datetime.utcnow)
-    last_login_time = DateTimeField()
-    access_token_key = StringField()
-    access_token_secret = StringField()
-    nr_right = IntField(default = 0)
-    nr_wrong = IntField(default = 0)
-    nr_attempts = IntField(default = 0)
+TW_KEY = 'KS1C3RP9cBUvjxqjoW95ig'
+TW_SECRET = 'CC6ugMv2JoYzzKyWyq2djWkghPnrK35jsHk8Cprlxcw'
 
-    @staticmethod
-    def get_user(screen_name):
-        try:
-            return User.objects(screen_name = screen_name).get()
-        except DoesNotExist:
-            return None
-        except:
-            raise
+#RESULTS_PER_PAGE = 100
+RESULTS_PER_PAGE = 100
+RESULTS_PER_SEARCH = 1500
+#RESULTS_PER_SEARCH = 100 
+
+PIPELINE_INPUT_SET_SIZE = 50
+
+log = logging.getLogger(__name__)
 
 class CampaignTweet(Document):
     """Defines an individual tweet collection.
@@ -46,17 +30,9 @@ class CampaignTweet(Document):
     img_url = StringField(default = None)
     processed = BooleanField(default = False)
     slug = DictField(default = None)
-TW_KEY = 'KS1C3RP9cBUvjxqjoW95ig'
-TW_SECRET = 'CC6ugMv2JoYzzKyWyq2djWkghPnrK35jsHk8Cprlxcw'
 
-#RESULTS_PER_PAGE = 100
-RESULTS_PER_PAGE = 100
-#RESULTS_PER_SEARCH = 1500
-RESULTS_PER_SEARCH = 100 
+    comments = ListField(StringField(), default = [])
 
-PIPELINE_INPUT_SET_SIZE = 50
-
-log = logging.getLogger(__name__)
 
 def get_handle():
     #it should take input for a method-name as well
