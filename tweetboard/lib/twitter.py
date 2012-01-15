@@ -31,7 +31,7 @@ class CampaignTweet(Document):
     processed = BooleanField(default = False)
     slug = DictField(default = None)
 
-    comments = ListField(StringField(), default = [])
+    comments = ListField(DictField(), default = [])
 
 
 def get_handle():
@@ -66,7 +66,9 @@ def search_tweets(term, since_id = None, max_id = None):
     i = 0
     status = None
     images = {}
-    q = '%s filter:links' % (term)
+    img_sources = ['twitpic', 'instagr', 'flic.kr', 'yfrog', 'tweetphoto', 'twitgo']
+    img_filter = " OR ".join(img_sources)
+    q = '%s %s filter:links' % (term, img_filter)
     for status in tweepy.Cursor(handle.search,
 		    q = q, rpp = RESULTS_PER_PAGE,
 		    since_id = since_id,
@@ -87,14 +89,14 @@ def search_tweets(term, since_id = None, max_id = None):
 			c = CampaignTweet(query = term,
 				    tw_id = str(status.id),
 				    img_url = img,
-				    comments = [status.text],
+				    comments = [status.__dict__],
 				    slug = status.__dict__)
 			c.save()
 			images[img] = c
 		    else:
 			#img already exist because retweeted
 			c = images[img]
-			CampaignTweet.objects(id = str(c.id)).update(push__comments = status.text)
+			CampaignTweet.objects(id = str(c.id)).update(push__comments = status.__dict__)
 
 	if max_since_id is None:
 	    max_since_id = status.id
