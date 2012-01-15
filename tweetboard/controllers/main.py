@@ -30,7 +30,7 @@ class MainController(BaseController):
         mdb_username = ''
         mdb_passwd = ''
 	connect(mdb_db)
-	self.tw_user = request.cookies[USER_INFO_COOKIE]
+	#self.tw_user = request.cookies[USER_INFO_COOKIE]
 
     def index(self):
         # Return a rendered template

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TweetBoard</title>
+
+    <!--jquery and jquery mobile stuff-->
+
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" />
+
+    <script src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+
+    <!--jquery template library-->
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+
+    <!--underscore and backbone.js from cdn-->
+    <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+    <script src="/js/board.js"></script>
+    <script>
+	$(document).ready(paint);
+    </script>
+    <style>
+	.fleft {float: left; width:150px; border:1px solid #444;}
+    </style>
+</head>
+<body>
+        <div class="topbar">
+	    <div class="fill">
+		<div class="container">
+		    <a class="brand logo" href="#">TweetBoard</a>
+		</div>
+	    </div>
+	</div>
+
+        <div class="container">
+	    <div class="supercontainer" style="margin-top:60px;">
+		<div id="rich_container" class="row">
+		    <div id="col1" class="span4"></div>
+		    <div id="col2" class="span4"></div>
+		    <div id="col3" class="span4"></div>
+		    <div id="col4" class="span4"></div>
+		</div>
+	    </div>
+	    <footer>
+		<p>&copy; TweetBoard, jsFOO Pune - HackNight. </p>
+	    </footer>
+	</div>
+
+
+
+    <!-- ---------------- Templates --------------------- -->
+<%text>
+<script id="tweet_template" type="text/x-jquery-tmpl">
+	<div id="genericobj" class="tweet">				
+	    <p class="description">"${main_text}"</p>
+	    <div class="imagedepth"><img src="${img_url}" alt="Such a cute Summer Dress!" style="width:200px;padding-left:4px;"></div>
+
+	    <p class="stats colorless smallfont" style="padding-left:40px;"><span class="LikesCount">${num_retweets} retweets</span></p>
+	    <div class="rtbox left">
+	        <div class="smallfont">Retweeted by:</div>
+		{{each comments}}
+		    <img src="${$value.profile_image_url}">&nbsp;
+		{{/each}}
+	    </div>
+
+	    <div class="clearfix"></div>
+	</div> <!-- genericobj closes -->
+</script>
+</%text>
+
+<%doc>
+	    <div class="rtbox left">
+		<div class="smallfont" style="margin-top:10px;">Replies:</div>
+		<div class="commentstrip left" style="padding-bottom:5px;border-bottom:1px solid #f4f4f4;margin-bottom:5px;">
+		    <div class="commentimage left">
+			<a class="ImgLink left" title="Liz Rigby" href="/liz_rigby_jij/"><img alt="Picture of Liz Rigby" src="http://a2.twimg.com/profile_images/1687243634/image_normal.jpg"></a>
+			<span class="commentext left" style="padding-left:10px; width:150px;">@bitchwanti awesome!!!!!!!!!! This is so cute :) @vipulk @_sunil_  - <span class="hrsago">3 hours ago</span></span>
+		    </div>
+		</div>
+	    </div>
+</%doc>
+
+</body>
+</html>

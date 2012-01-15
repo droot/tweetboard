@@ -1,0 +1,64 @@
+
+.logo{
+width:100%;
+text-align:center;  
+color:#FFFFFF !important;
+}
+
+body{
+    background-color:#F1EFF0 !important;
+}
+
+.fill{
+    background-color:#FAF7F7 !important;
+    
+}
+.clearfix{
+    clear:both;
+}
+
+.span4{
+    background-color:#FFFFFF !important;
+    border:1px solid #F2F0F0 !important;
+    box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+    font-size: 11px;
+    padding:5px;
+    /*height:900px;*/
+}
+
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+
+.ImgLink img{
+    width:32px;
+    height:32px;
+}
+
+.smallfont{
+ color: #8C7E7E;    
+}
+
+.rtbox{
+    padding-bottom:5px; margin-left:5px;
+}
+
+.imagedepth img{
+    border:2px solid #F4f4f4;
+    padding:2px;
+}
+
+.tweet {
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.container {width: 995px;}
+
+.description {
+    font-style: italic;
+    padding: 5px;
+}
