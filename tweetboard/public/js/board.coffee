@@ -1,18 +1,8 @@
 
-# Global Event Dispatcher
-EventDispatcher =
-		EVENT_CREATE_POLL: 'create_poll'
-		EVENT_ADD_PRODUCT: 'add_product_to_shortlist'
-		EVENT_REMOVE_PRODUCT: 'remove_product_from_shortlist'
-		EVENT_SHORTLIST_COMPLETE: 'shortlist_complete'
-		EVENT_SHORTLIST_COUNT_CHANGED: 'count_of_shortlist_changed'
-
-_.extend(EventDispatcher, Backbone.Events)
 
 # Basic model of a tweet
 class TweetModel extends Backbone.Model
 
-# Considered Products
 # -------------------
 class TweetListCollection extends Backbone.Collection
 	model: TweetModel
@@ -25,10 +15,7 @@ class TweetListModel extends Backbone.Model
 	load_list: =>
 		ajax_params =
 			url: '/main/search'
-			data:
-				q: 'srk'
-				c: '30'
-				start_idx: '0'
+			data: window.query_obj
 			success: (response) =>
 				if response and response.data
 					for content in response.data
@@ -40,7 +27,7 @@ class TweetListModel extends Backbone.Model
 						tweet = new TweetModel tweet_data
 						@t_list.add tweet
 				else
-					alert "Error in getting considered products"
+					alert "Oops .... bad taste ... :("
 			error: (obj, txt) =>
 				alert txt
 
@@ -65,7 +52,7 @@ class TweetView extends Backbone.View
 		"click .retweet": "retweet"
 
 	render: =>
-		$(@el).html($.tmpl(@template, @model.toJSON())).attr('id', "product_#{@model.cid}")
+		$(@el).html($.tmpl(@template, @model.toJSON())).attr('id', "tweet_#{@model.cid}")
 		@
 
 	retweet: =>

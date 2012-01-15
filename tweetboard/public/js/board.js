@@ -1,5 +1,5 @@
 (function() {
-  var AppController, EventDispatcher, TweetListCollection, TweetListModel, TweetModel, TweetView, TweetsListView;
+  var AppController, TweetListCollection, TweetListModel, TweetModel, TweetView, TweetsListView;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -8,14 +8,6 @@
     child.__super__ = parent.prototype;
     return child;
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  EventDispatcher = {
-    EVENT_CREATE_POLL: 'create_poll',
-    EVENT_ADD_PRODUCT: 'add_product_to_shortlist',
-    EVENT_REMOVE_PRODUCT: 'remove_product_from_shortlist',
-    EVENT_SHORTLIST_COMPLETE: 'shortlist_complete',
-    EVENT_SHORTLIST_COUNT_CHANGED: 'count_of_shortlist_changed'
-  };
-  _.extend(EventDispatcher, Backbone.Events);
   TweetModel = (function() {
     __extends(TweetModel, Backbone.Model);
     function TweetModel() {
@@ -46,11 +38,7 @@
       var ajax_params;
       ajax_params = {
         url: '/main/search',
-        data: {
-          q: 'srk',
-          c: '30',
-          start_idx: '0'
-        },
+        data: window.query_obj,
         success: __bind(function(response) {
           var content, tweet, tweet_data, _i, _len, _ref, _results;
           if (response && response.data) {
@@ -69,7 +57,7 @@
             }
             return _results;
           } else {
-            return alert("Error in getting considered products");
+            return alert("Oops .... bad taste ... :(");
           }
         }, this),
         error: __bind(function(obj, txt) {
@@ -118,7 +106,7 @@
       "click .retweet": "retweet"
     };
     TweetView.prototype.render = function() {
-      $(this.el).html($.tmpl(this.template, this.model.toJSON())).attr('id', "product_" + this.model.cid);
+      $(this.el).html($.tmpl(this.template, this.model.toJSON())).attr('id', "tweet_" + this.model.cid);
       return this;
     };
     TweetView.prototype.retweet = function() {};

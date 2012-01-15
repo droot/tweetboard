@@ -18,6 +18,7 @@
     <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
     <script src="/js/board.js"></script>
     <script>
+	var query_obj = {q: "${request.params.get('q', 'srk')}", c: "${request.params.get('c', '30')}", start_idx: "${request.params.get('start_idx', '0')}"};
 	$(document).ready(paint);
     </script>
     <style>
