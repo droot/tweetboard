@@ -28,11 +28,17 @@ class CampaignTweet(Document):
     query = StringField(required = True)
     tw_id = StringField(unique = True)
     img_url = StringField(default = None)
-    processed = BooleanField(default = False)
     slug = DictField(default = None)
 
     comments = ListField(DictField(), default = [])
+    
+    def to_json(self):
 
+	return {
+		'img': self.img_url,
+		'slug': self.slug,
+		'comments': [x for x in self.comments]
+		}
 
 def get_handle():
     #it should take input for a method-name as well
@@ -82,7 +88,11 @@ def search_tweets(term, since_id = None, max_id = None):
 	    print 'status:%s: %s : %s : %s' % (i, status.text, status.id, status.entities)
 	else:
 	    if expanded_url:
-		img = image_extracter(status.entities.get('urls')[0].get('expanded_url'))
+		try:
+		    img = image_extracter(status.entities.get('urls')[0].get('expanded_url'))
+		except:
+		    print "Exception"
+		    continue
 		if img:
 		    print "found image........"
 		    if img not in images:

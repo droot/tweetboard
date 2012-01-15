@@ -7,7 +7,8 @@ from pylons.controllers.util import abort, redirect_to
 from tweetboard.lib.base import BaseController, render
 import tweepy
 
-from tweetboard.lib import user as user_service
+from tweetboard.lib import user as user_service, helpers as h
+from tweetboard.lib import twitter as tw_service
 
 log = logging.getLogger(__name__)
 
@@ -25,10 +26,10 @@ class MainController(BaseController):
         """Stuff needed for every action"""
         mdb_host = 'localhost'
         mdb_port = 27017
-        mdb_db = 'tb_db'
+        mdb_db = 'tweetboard_db'
         mdb_username = ''
         mdb_passwd = ''
-	connect(mdb_db, username = mdb_username, password = mdb_passwd, host = mdb_host, port = mdb_port)
+	connect(mdb_db)
 	self.tw_user = request.cookies[USER_INFO_COOKIE]
 
     def index(self):
@@ -36,7 +37,22 @@ class MainController(BaseController):
         #return render('/main.mako')
         # or, return a response
 	return "board.html"
-    
+
+    @h.ourjsonify
+    def search(self):
+
+	q = request.params.get('q', 'srk')
+	c = int(request.params.get('c', 10))
+	start_idx = int(request.params.get('start_idx', 0))
+	end_idx = start_idx + c
+	resp = {}
+	content = [x.to_json() for x in tw_service.CampaignTweet.objects(query = q)[start_idx:end_idx]]
+	if content:
+	    resp['data'] = content
+	else:
+	    resp['error'] = 'No data found'
+	return resp
+
     def login(self):
         """lets try twitter implementation
         login action will only be called if user presses signin button
