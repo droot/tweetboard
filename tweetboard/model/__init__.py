@@ -28,3 +28,15 @@ class User(Document):
             return None
         except:
             raise
+
+class CampaignTweet(Document):
+    """Defines an individual tweet collection.
+    It will be used to store incoming 4square tweets
+    """
+    query = StringField(required = True)
+    tw_id = StringField(unique = True)
+    img_url = StringField(default = None)
+    processed = BooleanField(default = False)
+    slug = DictField(default = None)
+
+    comments = ListField(StringField(), default = [])
