@@ -1,4 +1,5 @@
 import logging
+from mongoengine import connect
 
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
@@ -6,7 +7,7 @@ from pylons.controllers.util import abort, redirect_to
 from tweetboard.lib.base import BaseController, render
 import tweepy
 
-#from yoda.game import user as user_service
+from tweetboard.lib import user as user_service
 
 log = logging.getLogger(__name__)
 
@@ -22,6 +23,13 @@ class MainController(BaseController):
 
     def __before__(self):
         """Stuff needed for every action"""
+        mdb_host = 'localhost'
+        mdb_port = 27017
+        mdb_db = 'tb_db'
+        mdb_username = ''
+        mdb_passwd = ''
+	connect(mdb_db, username = mdb_username, password = mdb_passwd, host = mdb_host, port = mdb_port)
+	self.tw_user = request.cookies[USER_INFO_COOKIE]
 
     def index(self):
         # Return a rendered template
@@ -35,8 +43,8 @@ class MainController(BaseController):
         """
         auth = tweepy.OAuthHandler(TW_KEY, TW_SECRET, 'http://localhost:5000/main/tw_callback')
         try:
-            #redirect_url = auth.get_authorization_url(signin_with_twitter=True)
-            redirect_url = auth.get_authorization_url()
+            redirect_url = auth.get_authorization_url(signin_with_twitter=True)
+            #redirect_url = auth.get_authorization_url()
         except tweepy.TweepError:
             log.exception('Tweepy error')
             raise
@@ -73,15 +81,9 @@ class MainController(BaseController):
         tw_user = api.me()
         log.info('User info[%s] tw_id[%s]' % (tw_user.screen_name, tw_user.id))
 
-        #user = user_service.get_user(screen_name = tw_user.screen_name)
-
-        #if user is not None:
-            #log.info('existing user re-connected')
-        #else:
-            #user = user_service.create_user(tw_user.screen_name, str(tw_user.id),
-                                            #auth.access_token.key, auth.access_token.secret)
-            #if user:
-                #log.info('new user[%s] got created' % (user.screen_name))
+        user = user_service.get_or_create_user(screen_name = tw_user.screen_name, \
+						tw_id = str(tw_user.id), key = auth.access_token.key,\
+						secret = auth.access_token.secret)
         #workflow to see if user exists or it is a first time user
         response.set_cookie(USER_INFO_COOKIE, tw_user.screen_name, max_age = 60*60*24)
 	return 'Hi %s, your details token:[%s] and secret[%s]' % (tw_user.screen_name, auth.access_token.key, auth.access_token.secret)

@@ -24,10 +24,15 @@ class User(Document):
     def get_user(screen_name):
         try:
             return User.objects(screen_name = screen_name).get()
-        except DoesNotExist:
-            return None
         except:
             raise
+    
+    @staticmethod
+    def get_or_create(**kwargs):
+	try:
+	    return User.objects.get_or_create(**kwargs)
+	except:
+	    raise
 
 class CampaignTweet(Document):
     """Defines an individual tweet collection.
@@ -40,3 +45,4 @@ class CampaignTweet(Document):
     slug = DictField(default = None)
 
     comments = ListField(StringField(), default = [])
+    
