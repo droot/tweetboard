@@ -115,6 +115,7 @@
   AppController = (function() {
     __extends(AppController, Backbone.Controller);
     function AppController() {
+      this.load_next_list = __bind(this.load_next_list, this);
       this.initialize = __bind(this.initialize, this);
       AppController.__super__.constructor.apply(this, arguments);
     }
@@ -124,7 +125,15 @@
         el: $("#rich_container"),
         model: this.tweet_list_model
       });
-      return this.tweet_list_model.load_list();
+      this.tweet_list_model.load_list();
+      return $(window).scroll(this.load_next_list);
+    };
+    AppController.prototype.load_next_list = function() {
+      if ($(window).scrollTop() >= $(document).height() - $(window).height() - 50) {
+        query_obj.start_idx = String(parseInt(query_obj.start_idx) + parseInt(query_obj.c));
+        query_obj.c = "10";
+        return this.tweet_list_model.load_list();
+      }
     };
     return AppController;
   })();

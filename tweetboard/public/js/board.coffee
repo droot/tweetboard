@@ -67,6 +67,13 @@ class AppController extends Backbone.Controller
 		@tweet_list_view = new TweetsListView el: $("#rich_container"), model: @tweet_list_model
 		@tweet_list_model.load_list()
 
+		$(window).scroll @load_next_list
+
+	load_next_list: () =>
+		if ($(window).scrollTop() >= $(document).height() - $(window).height() - 50)
+			query_obj.start_idx = String(parseInt(query_obj.start_idx) + parseInt(query_obj.c))
+			query_obj.c = "10"
+			@tweet_list_model.load_list()
 
 
 window.paint = () =>

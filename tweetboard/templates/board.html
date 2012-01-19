@@ -18,7 +18,7 @@
     <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
     <script src="/js/board.js"></script>
     <script>
-	var query_obj = {q: "${request.params.get('q', 'srk')}", c: "${request.params.get('c', '30')}", start_idx: "${request.params.get('start_idx', '0')}"};
+	var query_obj = {q: "${request.params.get('q', 'srk')}", c: "${request.params.get('c', '10')}", start_idx: "${request.params.get('start_idx', '0')}"};
 	$(document).ready(paint);
     </script>
     <style>
@@ -29,13 +29,20 @@
         <div class="topbar">
 	    <div class="fill">
 		<div class="container">
-		    <a class="brand logo" href="#">TweetBoard</a>
+		    <a class="brand logo" href="javascript:void(0)">TweetBoard</a>
+		    <ul>
+		    <li><a href="?q=dog">Dog</a></li>
+		    <li><a href="?q=cat">Cat</a></li>
+		    <li><a href="?q=god">GOD</a></li>
+		    <li><a href="?q=bollywood">Bollywood</a></li>
+		    <li><a href="?q=beauty">Beauty</a></li>
+		    </ul>
 		</div>
 	    </div>
 	</div>
 
         <div class="container">
-	    <div class="supercontainer" style="margin-top:60px;">
+	    <div class="supercontainer" style="margin-top:90px;">
 		<div id="rich_container" class="row">
 		    <div id="col1" class="span4"></div>
 		    <div id="col2" class="span4"></div>
