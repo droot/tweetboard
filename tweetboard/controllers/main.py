@@ -2,7 +2,6 @@ import logging
 from mongoengine import connect
 
 from pylons import request, response, session, tmpl_context as c
-from pylons.controllers.util import abort, redirect_to
 
 from tweetboard.lib.base import BaseController, render
 import tweepy
