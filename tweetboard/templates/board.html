@@ -31,11 +31,9 @@
 		<div class="container">
 		    <a class="brand logo" href="javascript:void(0)">TweetBoard</a>
 		    <ul>
-		    <li><a href="?q=dog">Dog</a></li>
-		    <li><a href="?q=cat">Cat</a></li>
-		    <li><a href="?q=god">GOD</a></li>
-		    <li><a href="?q=bollywood">Bollywood</a></li>
-		    <li><a href="?q=beauty">Beauty</a></li>
+			%for term in c.terms:
+			    <li><a href="?q=${term}">${term}</a></li>
+			%endfor
 		    </ul>
 		</div>
 	    </div>

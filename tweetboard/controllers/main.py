@@ -36,6 +36,7 @@ class MainController(BaseController):
         # Return a rendered template
         #return render('/main.mako')
         # or, return a response
+	c.terms = twitter.CampaignTweet.objects.distinct('query')
 	return render("board.html")
 
     @h.ourjsonify
